@@ -6,7 +6,7 @@ import AuthForm from './AuthForm';
 import { Colors } from '../../constants/styles';
 import {useNavigation} from '@react-navigation/native'
 
-function AuthContent({ isLogin, onAuthenticate }) {
+function AuthContent({ isLogin, onAuthenticate, alert }) {
   const navigation = useNavigation()
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
