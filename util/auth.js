@@ -17,7 +17,6 @@ export const authenticate = async (mode, email, password) => {
     })
 
     const token = res.data.idToken
-    console.log(res.data)
   return token
 }
 
