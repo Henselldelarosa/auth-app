@@ -9,7 +9,7 @@ function WelcomeScreen() {
   const authCtx = useContext(AuthContext)
   const token = authCtx.token
 
-
+// Fetching only auth allowed data
   useEffect(() => {
     axios.get(
       'https://react-native-auth-application-default-rtdb.firebaseio.com/message.json?auth=' + token
