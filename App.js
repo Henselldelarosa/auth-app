@@ -7,8 +7,10 @@ import SignupScreen from './screens/SignupScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import { Colors } from './constants/styles';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import IconButton from './components/ui/IconButton'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthForm from './components/Auth/AuthForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,12 +68,35 @@ function Navigation() {
   );
 }
 
+const Root = () => {
+
+  const authCtx = useContext(AuthContext)
+
+ 
+    //keeps the user signed in even after closing the app
+    useEffect(() => {
+
+      const fetchToken = async () => {
+        const storedToken = await AsyncStorage.getItem('token')
+
+        if (storedToken) {
+          authCtx.authenticate(storedToken)
+        }
+      }
+
+      fetchToken()
+    },[])
+
+    return <Navigation />
+}
+
 export default function App() {
+
   return (
     <>
       <StatusBar style="light" />
       <AuthContextProvider>
-        <Navigation />
+        <Root/>
       </AuthContextProvider>
     </>
   );
