@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 import IconButton from './components/ui/IconButton'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthForm from './components/Auth/AuthForm';
+import AppLoading from 'expo-app-loading';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,10 +70,10 @@ function Navigation() {
 }
 
 const Root = () => {
-
+  const [isTrtingLogin, setIsTryingLogin] = useState(true)
   const authCtx = useContext(AuthContext)
 
- 
+
     //keeps the user signed in even after closing the app
     useEffect(() => {
 
@@ -82,11 +83,17 @@ const Root = () => {
         if (storedToken) {
           authCtx.authenticate(storedToken)
         }
+
+        setIsTryingLogin(false)
       }
 
       fetchToken()
-    },[])
+    },[authCtx])
 
+    if(isTrtingLogin){
+      return <AppLoading />
+    }
+    
     return <Navigation />
 }
 
